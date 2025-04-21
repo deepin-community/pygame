@@ -1,0 +1,23 @@
+From: Stefano Rivera <stefanor@debian.org>
+Date: Tue, 31 Dec 2019 13:32:04 +0200
+Subject: Disable comment JS in documentation
+
+This calls back to pygame's server to retrieve comments to display,
+which wouldn't work offline, and is a privacy breach.
+
+Forwarded: not-needed
+---
+ docs/reST/themes/classic/elements.html | 5 -----
+ 1 file changed, 5 deletions(-)
+
+--- a/docs/reST/themes/classic/elements.html
++++ b/docs/reST/themes/classic/elements.html
+@@ -98,8 +98,3 @@
+ <hr />
+ <a href="{{ edit_on_github_url }}" rel="nofollow">{{ _('Edit on GitHub') }}</a>
+ {%- endblock %}
+-
+-
+-{%- block relbaritems %}
+-    <script type="text/javascript" src="https://www.pygame.org/comment/jquery.plugin.docscomments.js"></script>
+-{% endblock %}

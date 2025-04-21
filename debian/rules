@@ -1,4 +1,61 @@
 #!/usr/bin/make -f
 
+include /usr/share/dpkg/default.mk
+
+ifneq (,$(filter $(DEB_TARGET_ARCH_CPU),i386))
+export DEB_CFLAGS_MAINT_APPEND += -mfpmath=sse -msse2
+endif
+
+export PYBUILD_NAME = pygame
+
+export PYBUILD_BUILD_ARGS = cython
+
+# Replace embedded font with system copy
+export PYBUILD_AFTER_INSTALL = ln -sf /usr/share/fonts/truetype/freefont/FreeSansBold.ttf \
+                                      {destdir}/{install_dir}/pygame/freesansbold.ttf
+
+# setup.py only installs data during install, not build
+export PYBUILD_BEFORE_TEST = cp {dir}/src_py/pygame_icon.bmp {build_dir}/pygame; \
+                             cp /usr/share/fonts/truetype/freefont/FreeSansBold.ttf \
+                                {build_dir}/pygame/freesansbold.ttf; \
+                             ln -sf {dir}/examples/data {build_dir}/pygame/examples; \
+                             ln -sf {dir}/test/fixtures {build_dir}/pygame/tests/
+
+export ORIGLIBDIRS := /lib:/lib/$(DEB_HOST_MULTIARCH)
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+
 %:
-	dh $@
+	dh $@ --with python3,sphinxdoc --buildsystem=pybuild
+
+override_dh_auto_test:
+	# buildds don't provide graphical interfaces or audio/video devices
+	# to test with, hence some tests won't work properly without:
+	SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=disk LC_ALL=C.UTF-8 \
+		dh_auto_test -- --system=custom --test-args \
+		'/usr/bin/xvfb-run {interpreter} -m pygame.tests.__main__ -v --exclude opengl'
+
+override_dh_install:
+	dh_install
+	dh_numpy3
+	rm -f debian/python*-pygame/usr/lib/python*/dist-packages/pygame/LGPL
+	rm -rf debian/python*-pygame/usr/lib/python*/dist-packages/pygame/examples/
+	rm -rf debian/python*-pygame/usr/lib/python*/dist-packages/pygame/tests/
+	rm -rf debian/python*-pygame/usr/lib/python*/dist-packages/pygame/docs/
+	for d in debian/python3-pygame/usr/include/python*; do \
+		[ "$$d" = *m ] || mv "$$d" "$$d"m; \
+	done
+
+override_dh_installdocs:
+	python3 setup.py docs -f
+	rm -rf docs/generated/doctrees/ docs/generated/*/doctrees/
+	dh_installdocs --exclude=LGPL.txt
+
+override_dh_sphinxdoc:
+	# Ignore Korean documentation - it breaks dh_sphinxdoc (see bug 1008504)
+	dh_sphinxdoc -Xtut/ko
+
+override_dh_compress:
+	dh_compress -ppython-pygame-doc -Xexamples/
+	dh_compress --remaining-packages

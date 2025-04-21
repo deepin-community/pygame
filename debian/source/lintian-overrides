@@ -1,0 +1,4 @@
+# upstream does not sign tarballs; discussing that
+pygame source: debian-watch-does-not-check-openpgp-signature
+# generated from docs/reST and the source
+pygame source: source-is-missing [docs/generated/*]
