@@ -1,0 +1,15 @@
+Setup
+docs/generated/
+lib/version.py
+sdlaudio.raw
+src_c/_sdl2/audio.c
+src_c/_sdl2/controller.c
+src_c/_sdl2/mixer.c
+src_c/_sdl2/sdl2.c
+src_c/_sdl2/video.c
+src_c/_sprite.c
+src_c/pypm.c
+src_py/font.py
+_headers/
+arc.png
+pygame.egg-info/

@@ -1,15 +1,78 @@
-Source: template-repository
-Section: unknown
+Source: pygame
+Section: python
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Debian Python Team <team+python@tracker.debian.org>
+Uploaders:
+ Ed Boraas <ed@debian.org>,
+ A Mennucc1 <mennucc1@debian.org>,
+ Vincent Cheng <vcheng@debian.org>,
+ Dominik George <natureshadow@debian.org>,
+Build-Depends:
+ cython3,
+ debhelper-compat (= 13),
+ dh-python,
+ fluid-soundfont-gm,
+ fontconfig,
+ fonts-freefont-ttf,
+ libfreetype-dev,
+ libjpeg-dev,
+ libpng-dev,
+ libportmidi-dev [linux-any],
+ libsdl2-dev,
+ libsdl2-image-dev,
+ libsdl2-mixer-dev,
+ libsdl2-ttf-dev,
+ python3-all-dev,
+ python3-numpy,
+ python3-setuptools,
+ python3-sphinx,
+ sharutils,
+ timgm6mb-soundfont,
+ xauth,
+ xvfb,
+Build-Conflicts:
+ python3.2-dev (<< 3.2.3-7),
+Standards-Version: 4.7.0
+Homepage: https://www.pygame.org/
+Vcs-Git: https://salsa.debian.org/python-team/packages/pygame.git
+Vcs-Browser: https://salsa.debian.org/python-team/packages/pygame
+Testsuite: autopkgtest-pkg-python
+Rules-Requires-Root: no
 
-Package: template-repository
+Package: python3-pygame
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends:
+ fonts-freefont-ttf,
+ python3-numpy,
+ sse2-support [i386],
+ ${misc:Depends},
+ ${python3:Depends},
+ ${shlibs:Depends},
+Suggests:
+ python-pygame-doc,
+ timidity,
+Description: SDL bindings for games development (Python 3)
+ A multimedia development kit for Python. Pygame provides modules for you
+ to access the video display, play sounds, track time, read the mouse and
+ joystick, control the CD player, render true type fonts and more. It does
+ this using mainly the cross-platform SDL library, a lightweight wrapper
+ to OS-specific APIs.
+ .
+ This is the Python 3 version of the package.
+
+Package: python-pygame-doc
+Architecture: all
+Section: doc
+Multi-Arch: foreign
+Depends:
+ fonts-freefont-ttf,
+ ${misc:Depends},
+ ${sphinxdoc:Depends},
+Description: SDL bindings for games development in Python (documentation)
+ A multimedia development kit for Python. Pygame provides modules for you
+ to access the video display, play sounds, track time, read the mouse and
+ joystick, control the CD player, render true type fonts and more. It does
+ this using mainly the cross-platform SDL library, a lightweight wrapper
+ to OS-specific APIs.
+ .
+ This package contains Pygame's API documentation and examples.

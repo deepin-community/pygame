@@ -1,0 +1,42 @@
+Description: Skip flaky test on s390x
+ Upstream CI builds against s390x and apparently this test works fine there,
+ so this test is only flaky on Debian s390x buildds/porterboxen. Just skip it.
+Author: Vincent Cheng <vcheng@debian.org>
+Forwarded: not-needed
+Bug-Debian: https://bugs.debian.org/1087608
+Last-Update: 2024-11-21
+
+--- a/test/time_test.py
++++ b/test/time_test.py
+@@ -365,6 +365,10 @@
+             self.assertEqual(pygame.event.get().count(e), repeat)
+         pygame.quit()
+ 
++    @unittest.skipIf(platform.machine() == "s390x", "Fails on s390x")
++    @unittest.skipIf(
++        os.environ.get("CI", None), "CI can have variable time slices, slow."
++    )
+     def test_wait(self):
+         """Tests time.wait() function."""
+         millis = 100  # millisecond to wait on each iteration
+--- a/test/event_test.py
++++ b/test/event_test.py
+@@ -2,6 +2,7 @@
+ import time
+ import unittest
+ import os
++import platform
+ 
+ import pygame
+ 
+@@ -907,6 +908,10 @@
+         pygame.event.clear()  # flush events
+         pygame.display.quit()
+ 
++    @unittest.skipIf(platform.machine() == "s390x", "Fails on s390x")
++    @unittest.skipIf(
++        os.environ.get("CI", None), "CI can have variable time slices, slow."
++    )
+     def test_event_wait(self):
+         """Ensure wait() waits for an event on the queue."""
+         # Test case without timeout.

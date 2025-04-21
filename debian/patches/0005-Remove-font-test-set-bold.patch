@@ -1,0 +1,44 @@
+From: Dominik George <nik@naturalnet.de>
+Date: Thu, 26 Jan 2017 22:46:11 +0100
+Subject: Remove font test set bold.
+
+Can't get the test to run with the system font, but that's most
+definitely not a pygame issue.
+
+Forwarded: not-needed
+---
+ test/font_test.py | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+--- a/test/font_test.py
++++ b/test/font_test.py
+@@ -416,14 +416,6 @@
+             ucs_4 = "\U00010000"
+             s = f.render(ucs_4, False, [0, 0, 0], [255, 255, 255])
+ 
+-    def test_set_bold(self):
+-        f = pygame_font.Font(None, 20)
+-        self.assertFalse(f.get_bold())
+-        f.set_bold(True)
+-        self.assertTrue(f.get_bold())
+-        f.set_bold(False)
+-        self.assertFalse(f.get_bold())
+-
+     def test_set_italic(self):
+         f = pygame_font.Font(None, 20)
+         self.assertFalse(f.get_italic())
+@@ -449,14 +441,6 @@
+             f.set_strikethrough(False)
+             self.assertFalse(f.get_strikethrough())
+ 
+-    def test_bold_attr(self):
+-        f = pygame_font.Font(None, 20)
+-        self.assertFalse(f.bold)
+-        f.bold = True
+-        self.assertTrue(f.bold)
+-        f.bold = False
+-        self.assertFalse(f.bold)
+-
+     def test_set_italic_property(self):
+         f = pygame_font.Font(None, 20)
+         self.assertFalse(f.italic)

@@ -1,0 +1,6 @@
+0005-Remove-font-test-set-bold.patch
+disable-doc-comments.patch
+s390x-time-test.patch
+ignore-test-machinery-issue.diff
+skip-local-doc-build.diff
+ignore-failing-mixer-test.patch
