@@ -1,3 +1,9 @@
+pygame (2.6.1-1deepin1) unstable; urgency=medium
+
+  * Rebuild against numpy2.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Fri, 19 Dec 2025 11:02:21 +0800
+
 pygame (2.6.1-1) unstable; urgency=medium
 
   * New upstream release.
